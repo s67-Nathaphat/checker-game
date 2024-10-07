@@ -1,0 +1,45 @@
+import tkinter as tk
+
+class Checkerboard:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Checkerboard")
+        self.board = []
+        self.create_board()
+        self.place_pieces()
+
+    def create_board(self):
+        for row in range(8):
+            row_squares = []
+            for col in range(8):
+                color = "black" if (row + col) % 2 == 0 else "white"
+                square = tk.Frame(self.root, width=80, height=80, bg=color)
+                square.grid(row=row, column=col)
+                row_squares.append(square)
+            self.board.append(row_squares)
+
+    def place_pieces(self):
+        # วางหมากแดงในแถวที่ 0 และ 1
+        for row in range(2):  # แถว 0 และ 1
+            for col in range(8):
+                if (row + col) % 2 != 0:  # ใส่หมากในช่องสีขาว
+                    self.draw_circle(row, col, "red")
+
+        # วางหมากดำในแถวที่ 6 และ 7
+        for row in range(6, 8):  # แถว 6 และ 7
+            for col in range(8):
+                if (row + col) % 2 != 0:  # ใส่หมากในช่องสีขาว
+                    self.draw_circle(row, col, "black")
+
+    def draw_circle(self, row, col, color):
+        # สร้าง Canvas สำหรับวาดวงกลม
+        canvas = tk.Canvas(self.board[row][col], width=80, height=80, bg=self.board[row][col]['bg'], highlightthickness=0)
+        canvas.pack()
+        
+        # วาดวงกลมใน Canvas
+        canvas.create_oval(10, 10, 70, 70, fill=color)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    game = Checkerboard(root)
+    root.mainloop()
